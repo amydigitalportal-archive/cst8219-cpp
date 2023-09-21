@@ -50,7 +50,7 @@ namespace CST8219 {
 
 int main(int argc, char **argv)
 {
-	CST8219::Vehicle myVehicle;
+	CST8219::Vehicle myVehicle(4);
 	cout << "I made a Vehicle!" << endl;
 	return 0;
 }
