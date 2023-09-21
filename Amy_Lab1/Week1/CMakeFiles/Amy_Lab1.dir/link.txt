@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/Amy_Lab1.dir/Week1.o -o Amy_Lab1 
