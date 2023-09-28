@@ -11,6 +11,7 @@
 */
 
 #include<iostream>
+#include<climits>
 
 using namespace std;
 
@@ -27,22 +28,22 @@ namespace CST8219 {
 			numWheels = w;
 			numDoors = d;
 
-			//cout << "# DEBUG : In constructor with 2 parameters" << endl;
+			cout << "# DEBUG : In constructor with 2 parameters" << endl;
 		}
 
 		Vehicle(int w) : Vehicle(w, 4)
 		{
-			//cout << "# DEBUG : In constructor with 1 parameters, wheels = " << w << endl;
+			cout << "# DEBUG : In constructor with 1 parameters, wheels = " << w << endl;
 		}
 
 		Vehicle() : Vehicle(4)
 		{
-			//cout << "# DEBUG : In constructor with 0 parameters" << endl;
+			cout << "# DEBUG : In constructor with 0 parameters" << endl;
 		}
 
 		~Vehicle()
 		{
-			//cout << "# DEBUG : In destructor" << endl;
+			cout << "# DEBUG : In destructor" << endl;
 		}
 
 		int GetNumWheels() { return numWheels; }
@@ -50,7 +51,7 @@ namespace CST8219 {
 	};
 }
 
-int GetNumberOf(char* vehicleParts) {
+int GetNumberOf(string vehicleParts) {
 	int num;
 	do {
 		cout << "Enter the number of " << vehicleParts << ": ";
@@ -67,13 +68,13 @@ int GetNumberOf(char* vehicleParts) {
 
 int main(int argc, char **argv)
 {
-	//CST8219::Vehicle veh1;
-	//CST8219::Vehicle veh2(4);
-	//CST8219::Vehicle veh3(4, 2);
+	CST8219::Vehicle veh1;
+	CST8219::Vehicle veh2(4);
+	CST8219::Vehicle veh3(4, 2);
 
-	//cout << "Vehicle 1 takes " << sizeof(veh1) << endl;
-	//cout << "Vehicle 2 takes " << sizeof(veh2) << endl;
-	//cout << "Vehicle 3 takes " << sizeof(veh3) << endl;
+	cout << "Vehicle 1 takes " << sizeof(veh1) << endl;
+	cout << "Vehicle 2 takes " << sizeof(veh2) << endl;
+	cout << "Vehicle 3 takes " << sizeof(veh3) << endl;
 
 	char userResponse;
 	do {
@@ -92,7 +93,7 @@ int main(int argc, char **argv)
 
 		delete pVehicle;
 
-		cout << endl << "Enter a new vehicle? Type 'q' (without apostrophes) to quit program: ";
+		cout << endl << "Enter a new vehicle? (To QUIT the program, type 'q' without the apostrophes): ";
 		cin >> userResponse;
 
 	} while (userResponse != 'q' && userResponse != 'Q');
