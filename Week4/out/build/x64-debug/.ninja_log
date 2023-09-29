@@ -1,0 +1,24 @@
+# ninja log v5
+2	743	7177279101941142	CMakeFiles/Week4.dir/Week4.cpp.obj	20cf60c9a39842cb
+6	754	7177279102051187	CMakeFiles/Week4.dir/Vehicle.cpp.obj	7840e0ad08ff65ef
+754	1071	7177279105046832	Week4.exe	85b0a1efdd5fb7c
+12	725	7177279311932543	CMakeFiles/Week4.dir/Week4.cpp.obj	20cf60c9a39842cb
+726	874	7177279313132801	Week4.exe	85b0a1efdd5fb7c
+12	742	7177285430233467	CMakeFiles/Week4.dir/Week4.cpp.obj	20cf60c9a39842cb
+12	751	7177285573211399	CMakeFiles/Week4.dir/Vehicle.cpp.obj	7840e0ad08ff65ef
+752	889	7177285574268593	Week4.exe	85b0a1efdd5fb7c
+10	730	7177291839344940	CMakeFiles/Week4.dir/Week4.cpp.obj	20cf60c9a39842cb
+14	753	7177291839574320	CMakeFiles/Week4.dir/Vehicle.cpp.obj	7840e0ad08ff65ef
+753	946	7177291841120717	Week4.exe	85b0a1efdd5fb7c
+14	742	7177292065619936	CMakeFiles/Week4.dir/Vehicle.cpp.obj	7840e0ad08ff65ef
+743	885	7177292066726953	Week4.exe	85b0a1efdd5fb7c
+11	768	7177293683026076	CMakeFiles/Week4.dir/Vehicle.cpp.obj	7840e0ad08ff65ef
+768	908	7177293684103101	Week4.exe	85b0a1efdd5fb7c
+11	777	7177295110525079	CMakeFiles/Week4.dir/Week4.cpp.obj	20cf60c9a39842cb
+778	904	7177295111522413	Week4.exe	85b0a1efdd5fb7c
+12	767	7177296090720481	CMakeFiles/Week4.dir/Week4.cpp.obj	20cf60c9a39842cb
+18	813	7177296091179260	CMakeFiles/Week4.dir/Vehicle.cpp.obj	7840e0ad08ff65ef
+813	947	7177296092226448	Week4.exe	85b0a1efdd5fb7c
+8	822	7177302668373408	CMakeFiles/Week4.dir/Vehicle.cpp.obj	7840e0ad08ff65ef
+3	834	7177302668493098	CMakeFiles/Week4.dir/Week4.cpp.obj	20cf60c9a39842cb
+835	984	7177302669630044	Week4.exe	85b0a1efdd5fb7c
