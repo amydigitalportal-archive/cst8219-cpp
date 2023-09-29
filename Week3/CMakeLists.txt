@@ -14,7 +14,7 @@ project ("Week3")
 # Add source to this project's executable.
 add_executable (Week3 "Week3.cpp" "Week3.h")
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
+if (CMAKE_VERSION VERSION_GREATER 3.2)
   set_property(TARGET Week3 PROPERTY CXX_STANDARD 20)
 endif()
 
