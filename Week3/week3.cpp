@@ -63,6 +63,7 @@ int GetNumberOf(string vehicleParts) {
 		}
 	} while (num <= 0);
 
+	cin.clear(); cin.ignore(INT_MAX, '\n');
 	return num;
 };
 
