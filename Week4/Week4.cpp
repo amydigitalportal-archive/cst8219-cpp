@@ -18,7 +18,7 @@ using namespace std;
 using namespace CST8219;
 
 void CreateVehicle(Vehicle& v, int w = 4, int d = 2) {
-	v = new Vehicle(w, d);
+	v = Vehicle(w, d);
 }
 
 int main(int argc, char** argv)
