@@ -22,7 +22,8 @@ using namespace CST8219;
 * Prints out the specified message
 * only when DEBUG_LOGGING is defined.
 */
-void DebugLog(string msg) {
+void DebugLog(string msg) 
+{
 #ifdef DEBUG_LOGGING
 	cout << msg << endl;
 #endif // DEBUG_LOGGING
@@ -81,11 +82,13 @@ void Vehicle::PrintVehicle(Vehicle &v)
 		<< endl;
 }
 
-void Vehicle::PrintVehicle() {
+void Vehicle::PrintVehicle() 
+{
 	PrintVehicle(*this);
 }
 
-Vehicle& Vehicle::operator=(const Vehicle& other) {
+Vehicle& Vehicle::operator=(const Vehicle& other) 
+{
 	if (this != &other) {
 		numWheels = other.numWheels;
 		numDoors = other.numDoors;
@@ -94,23 +97,27 @@ Vehicle& Vehicle::operator=(const Vehicle& other) {
 	return *this;
 }
 
-bool Vehicle::operator==(const Vehicle& other) const {
+bool Vehicle::operator==(const Vehicle& other) const 
+{
 	return (this->numWheels == other.numWheels)
 		&& (this->numDoors == other.numDoors);
 }
 
-bool Vehicle::operator!=(const Vehicle& other) const {
+bool Vehicle::operator!=(const Vehicle& other) const 
+{
 	return ! operator==(other);
 }
 
 /* Pre-fix increment. */
-Vehicle Vehicle::operator++() {
+Vehicle Vehicle::operator++() 
+{
 	numWheels++; numDoors++;
 	return Vehicle(this);
 }
 
 /* Post-fix increment. */
-Vehicle Vehicle::operator++(int i) {
+Vehicle Vehicle::operator++(int i) 
+{
 	// return a copy of the original Vehicle before incrementing values for "this"
 	Vehicle copy(numWheels, numDoors);
 	this->operator++();
@@ -121,14 +128,25 @@ Vehicle Vehicle::operator++(int i) {
 }
 
 /* Pre-fix decrement. */
-Vehicle Vehicle::operator--() {
+Vehicle Vehicle::operator--() 
+{
 	numWheels--; numDoors--;
 	return Vehicle(this);
 }
 
 /* Post-fix decrement. */
-Vehicle Vehicle::operator--(int i) {
+Vehicle Vehicle::operator--(int i) 
+{
 	Vehicle copy(numWheels, numDoors);
 	this->operator--();
 	return copy;
+}
+
+ostream& CST8219::operator<<(ostream& os, const Vehicle& v)
+{
+	os << "Vehicle at address: " << &v << endl
+		<< "Number of wheels: " << v.numWheels << endl
+		<< "Number of doors: " << v.numDoors << endl
+		<< endl;
+	return os;
 }

@@ -51,6 +51,32 @@ void RunWeek4()
 
 void RunWeek5()
 {
+	Vehicle original;
+	Vehicle copy(original); // copy constructor by reference
+
+	cout << "Original is: " << original << " copy is: " << copy << endl;
+
+	cout << "Increment original: " << original++ << endl;
+	cout << "Increment copy:" << ++copy << endl;
+
+	cout << "Decrement original:" << --original << endl;
+	cout << "Decrement copy:" << copy-- << endl;
+
+	// should be true :
+	cout << "Compare equality 1: " << (original == copy) << endl;
+
+	//should be false:
+	cout << "Compare equality 2: " << (--original == ++copy) << endl;
+
+	//should be true:
+	cout << "Compare inequality: " << (original != copy) << endl;
+
+	//This should make original = copy, and then return a Vehicle for output:
+	cout << "Assignment operator: " << (original = copy) << endl;
+}
+
+void RunWeek5PersonalTests()
+{
 	// -- Test Task # 2
 	Vehicle v1(0, 0);
 	Vehicle v2(0, 0);
@@ -120,10 +146,10 @@ void RunWeek5()
 
 	}//end Task # 5
 
-
-
-
-
+	// Test Task # 6
+	cout << "-- Task # 6: Displaying Vehicle using ostream ..." << endl;
+	Vehicle outputVeh(123, 456);
+	cout << outputVeh << endl;
 }
 
 

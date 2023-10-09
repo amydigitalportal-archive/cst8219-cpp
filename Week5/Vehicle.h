@@ -38,7 +38,7 @@ namespace CST8219
 		Vehicle(Vehicle&);
 		Vehicle(Vehicle*);
 
-		void PrintVehicle(Vehicle &v);
+		void PrintVehicle(Vehicle& v);
 		void PrintVehicle(void);
 
 		Vehicle& operator=(const Vehicle& other);
@@ -49,6 +49,8 @@ namespace CST8219
 		Vehicle operator++(int i);
 		Vehicle operator--();
 		Vehicle operator--(int i);
+
+		friend std::ostream& operator<<(std::ostream& os, const Vehicle& v);
 	};
 }
 
