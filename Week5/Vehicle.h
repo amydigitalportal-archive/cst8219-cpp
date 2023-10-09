@@ -42,7 +42,15 @@ namespace CST8219
 		void PrintVehicle(void);
 
 		Vehicle& operator=(const Vehicle& other);
+		bool operator==(const Vehicle& other) const;
+		bool operator!=(const Vehicle& other) const;
+
+		Vehicle operator++();
+		Vehicle operator++(int i);
+		Vehicle operator--();
+		Vehicle operator--(int i);
 	};
 }
+
 #endif
 

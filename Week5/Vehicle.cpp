@@ -93,3 +93,42 @@ Vehicle& Vehicle::operator=(const Vehicle& other) {
 
 	return *this;
 }
+
+bool Vehicle::operator==(const Vehicle& other) const {
+	return (this->numWheels == other.numWheels)
+		&& (this->numDoors == other.numDoors);
+}
+
+bool Vehicle::operator!=(const Vehicle& other) const {
+	return ! operator==(other);
+}
+
+/* Pre-fix increment. */
+Vehicle Vehicle::operator++() {
+	numWheels++; numDoors++;
+	return Vehicle(this);
+}
+
+/* Post-fix increment. */
+Vehicle Vehicle::operator++(int i) {
+	// return a copy of the original Vehicle before incrementing values for "this"
+	Vehicle copy(numWheels, numDoors);
+	this->operator++();
+	return copy;
+
+	/* Alternative. */
+	//return Vehicle(this->numWheels++, this->numDoors++);
+}
+
+/* Pre-fix decrement. */
+Vehicle Vehicle::operator--() {
+	numWheels--; numDoors--;
+	return Vehicle(this);
+}
+
+/* Post-fix decrement. */
+Vehicle Vehicle::operator--(int i) {
+	Vehicle copy(numWheels, numDoors);
+	this->operator--();
+	return copy;
+}

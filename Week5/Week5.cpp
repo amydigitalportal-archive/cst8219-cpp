@@ -51,13 +51,79 @@ void RunWeek4()
 
 void RunWeek5()
 {
-	Vehicle v1(4, 6);
-
+	// -- Test Task # 2
+	Vehicle v1(0, 0);
 	Vehicle v2(0, 0);
+	Vehicle v3(0, 0);
 
-	v2 = v1;
+	Vehicle v4(4, 6);
 
+	v1 = v2 = v3 = v4;
+
+	v1.PrintVehicle();
 	v2.PrintVehicle();
+	v3.PrintVehicle();
+	v4.PrintVehicle();
+
+	// -- Test Task # 3
+
+	Vehicle v5(18, 2);
+	v5.PrintVehicle();
+
+	if (v2 == v5) {
+		cout << "Vehicle #2 has the same number of wheels and doors as Vehicle #5!" << endl;
+	}
+	// -- Test Task # 4
+	else if (v2 != v5) {
+		cout << "Vehicle #2 and Vehicle #5 don't match!" << endl;
+	}
+	cout << endl << endl;
+
+	// Task #5
+	{
+		// -- Test Task #5-a: ++v
+
+		cout << "-- 5-a." << endl;
+
+		Vehicle v1_copied = ++v1;
+		cout << "Copy of v1's values returned PRE-increment ..." << endl;
+		v1_copied.PrintVehicle();
+		cout << "v1's values ..." << endl;
+		v1.PrintVehicle();
+
+		// -- Test Task #5-b: v++
+
+		cout << "-- 5-b." << endl;
+		Vehicle v2_copied = v2++;
+		cout << "Copy of v2's values returned POST-increment ..." << endl;
+		v2_copied.PrintVehicle();
+		cout << "v2's values ..." << endl;
+		v2.PrintVehicle();
+
+		// -- Test Task #5-c: --v
+
+		cout << "-- 5-c." << endl;
+		Vehicle v3_copied = --v3;
+		cout << "Copy of v3's values returned PRE-decrement ..." << endl;
+		v3_copied.PrintVehicle();
+		cout << "v3's values ..." << endl;
+		v3.PrintVehicle();
+
+		// -- Test Task #5-d: v--
+
+		cout << "-- 5-d." << endl;
+		Vehicle v4_copied = v4--;
+		cout << "Copy of v4's values returned POST-decrement ..." << endl;
+		v4_copied.PrintVehicle();
+		cout << "v4's values ..." << endl;
+		v4.PrintVehicle();
+
+	}//end Task # 5
+
+
+
+
+
 }
 
 
