@@ -25,6 +25,9 @@ namespace CST8219
 		float maximumCharge;
 
 		void SanitizeData() override;
+
+	public:
+		float CalculateRange() override;
 	};
 }
 

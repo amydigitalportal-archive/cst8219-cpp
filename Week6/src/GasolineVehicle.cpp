@@ -14,3 +14,35 @@
 
 using namespace std;
 using namespace CST8219;
+
+void GasolineVehicle::SanitizeData()
+{
+	Vehicle::SanitizeData();
+
+	// Enforce: `maximumCharge`
+	if (maximumGasoline < 0) maximumGasoline = 0;
+
+	// Enforce: `currentCharge`
+	currentGasoline = (currentCharge < 0) ? 0
+		: (currentGasoline > maximumGasoline) ? maximumGasoline
+		: currentGasoline;
+}
+
+/* Should return */
+float GasolineVehicle::CalculateRange()
+{
+	GasolineVehicle::SanitizeData();
+
+	if (engineEfficiency == 0) // cheat codes!
+	{
+		return std::numeric_limits<float>::infinity();
+	}
+
+	if (currentGasoline == 0) // fill some gas!
+	{
+		return 0;
+	}
+
+	return (currentGasoline == 0) ? 0
+		: currentGasoline * 100 / engineEfficiency;
+}

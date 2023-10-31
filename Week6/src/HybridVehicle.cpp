@@ -14,3 +14,10 @@
 
 using namespace std;
 using namespace CST8219;
+
+float HybridVehicle::CalculateRange()
+{
+	float totalRange = ElectricVehicle::CalculateRange() + GasolineVehicle::CalculateRange();
+	return totalRange;
+
+}

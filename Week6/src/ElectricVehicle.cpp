@@ -27,3 +27,22 @@ void ElectricVehicle::SanitizeData()
 		: (currentCharge > maximumCharge) ? maximumCharge
 		: currentCharge;
 }
+
+/* Should return */
+float ElectricVehicle::CalculateRange()
+{
+	ElectricVehicle::SanitizeData();
+
+	if (engineEfficiency == 0) // cheat codes!
+	{
+		return std::numeric_limits<float>::infinity();
+	}
+
+	if (currentCharge == 0) // charge your battery!
+	{
+		return 0;
+	}
+
+	return (currentCharge == 0) ? 0
+		: currentCharge * 100 / engineEfficiency;
+}

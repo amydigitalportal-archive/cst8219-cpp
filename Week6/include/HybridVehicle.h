@@ -21,6 +21,8 @@ namespace CST8219
 {
 	class HybridVehicle : public ElectricVehicle, public GasolineVehicle
 	{
+	public:
+		float CalculateRange() override;
 	};
 }
 

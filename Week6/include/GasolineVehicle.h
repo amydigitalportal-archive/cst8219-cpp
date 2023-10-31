@@ -23,6 +23,10 @@ namespace CST8219
 	protected:
 		float currentGasoline;
 		float maximumGasoline;
+
+		void SanitizeData() override;
+	public:
+		float CalculateRange() override;
 	};
 }
 
