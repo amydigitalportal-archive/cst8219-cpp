@@ -19,12 +19,16 @@ void GasolineVehicle::SanitizeData()
 {
 	Vehicle::SanitizeData();
 
-	// Enforce: `maximumCharge`
+	// Enforce: `maximumCharge`: Negative max?
 	if (maximumGasoline < 0) maximumGasoline = 0;
 
 	// Enforce: `currentCharge`
-	currentGasoline = (currentCharge < 0) ? 0
+	currentGasoline =
+		// Negative gas?
+		(currentGasoline < 0) ? 0
+		// Current exceed Max?
 		: (currentGasoline > maximumGasoline) ? maximumGasoline
+		// Good.
 		: currentGasoline;
 }
 
@@ -45,4 +49,9 @@ float GasolineVehicle::CalculateRange()
 
 	return (currentGasoline == 0) ? 0
 		: currentGasoline * 100 / engineEfficiency;
+}
+
+float GasolineVehicle::PercentEnergyRemaining()
+{
+	return (currentGasoline / maximumGasoline) * 100.0f;
 }

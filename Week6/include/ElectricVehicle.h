@@ -28,6 +28,8 @@ namespace CST8219
 
 	public:
 		float CalculateRange() override;
+		float PercentEnergyRemaining() override;
+		void Drive(float km) override;
 	};
 }
 

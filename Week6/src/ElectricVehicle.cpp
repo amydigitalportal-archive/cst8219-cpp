@@ -23,8 +23,12 @@ void ElectricVehicle::SanitizeData()
 	if (maximumCharge < 0) maximumCharge = 0;
 
 	// Enforce: `currentCharge`
-	currentCharge = (currentCharge < 0) ? 0
+	currentCharge =
+		// Negative charge?
+		(currentCharge < 0) ? 0
+		// Current exceed Max?
 		: (currentCharge > maximumCharge) ? maximumCharge
+		// Good.
 		: currentCharge;
 }
 
@@ -45,4 +49,9 @@ float ElectricVehicle::CalculateRange()
 
 	return (currentCharge == 0) ? 0
 		: currentCharge * 100 / engineEfficiency;
+}
+
+float ElectricVehicle::PercentEnergyRemaining()
+{
+	return (currentCharge / maximumCharge) * 100.0f;
 }

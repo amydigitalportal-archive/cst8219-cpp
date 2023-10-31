@@ -19,5 +19,11 @@ float HybridVehicle::CalculateRange()
 {
 	float totalRange = ElectricVehicle::CalculateRange() + GasolineVehicle::CalculateRange();
 	return totalRange;
+}
 
+float HybridVehicle::PercentEnergyRemaining()
+{
+	float percentElectric = ElectricVehicle::PercentEnergyRemaining();
+	float percentGasoline = GasolineVehicle::PercentEnergyRemaining();
+	return (percentElectric + percentGasoline) / 2;
 }

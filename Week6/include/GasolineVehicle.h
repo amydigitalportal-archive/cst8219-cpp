@@ -27,6 +27,8 @@ namespace CST8219
 		void SanitizeData() override;
 	public:
 		float CalculateRange() override;
+		float PercentEnergyRemaining() override;
+		void Drive(float km) override;
 	};
 }
 
