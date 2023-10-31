@@ -141,3 +141,12 @@ ostream& CST8219::operator<<(ostream& os, const Vehicle& v)
 		<< endl;
 	return os;
 }
+
+void Vehicle::SanitizeData()
+{
+	// Enforce: `numWheels`
+	if (numWheels < 0) numWheels = 0;
+	
+	// Enforce: `numDoors`
+	if (numDoors < 0) numDoors = 0;
+}

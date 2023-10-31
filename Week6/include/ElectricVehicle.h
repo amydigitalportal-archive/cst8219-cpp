@@ -23,6 +23,8 @@ namespace CST8219
 	protected:
 		float currentCharge;
 		float maximumCharge;
+
+		void SanitizeData() override;
 	};
 }
 

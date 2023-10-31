@@ -25,8 +25,10 @@ namespace CST8219
 	private:
 		int numWheels;
 		int numDoors;
+
 	protected:
 		float engineEfficiency;
+		virtual void SanitizeData() = 0;
 
 	public:
 		/* -- Getters -- */

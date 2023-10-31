@@ -14,3 +14,16 @@
 
 using namespace std;
 using namespace CST8219;
+
+void ElectricVehicle::SanitizeData()
+{
+	Vehicle::SanitizeData();
+
+	// Enforce: `maximumCharge`
+	if (maximumCharge < 0) maximumCharge = 0;
+
+	// Enforce: `currentCharge`
+	currentCharge = (currentCharge < 0) ? 0
+		: (currentCharge > maximumCharge) ? maximumCharge
+		: currentCharge;
+}
