@@ -10,8 +10,8 @@
 * Due Date:		03 NOV 2023
 */
 
-#include "../include/Vehicle.h"
 #include "../include/ElectricVehicle.h"
+#include "../include/GasolineVehicle.h"
 
 #include <iostream>
 
@@ -181,9 +181,14 @@ Vehicle* testVehicle(Vehicle* pVehicle, const char* vehicleName)
 
 void RunWeek6()
 {
+	//50L of gas, 7.1 L/100km
+	delete testVehicle(new GasolineVehicle(50, 7.1f), "Corolla");
+	cout << endl;
+
 
 	//75 kWh, 16 kWh/100km
 	delete testVehicle(new ElectricVehicle(75, 16), "Tesla 3");
+	cout << endl;
 }
 
 int main(int argc, char** argv)

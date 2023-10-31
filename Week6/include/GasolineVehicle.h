@@ -1,4 +1,4 @@
-/*File: ElectricVehicle.h
+/*File: GasolineVehicle.h
 *
 * Course:		CST8219 C++ Programming (23F)
 * Section:		302
@@ -29,6 +29,9 @@ namespace CST8219
 		float CalculateRange() override;
 		float PercentEnergyRemaining() override;
 		void Drive(float km) override;
+
+		GasolineVehicle(float maximumGasoline, float engineEfficiency, int nWheels = 4, int nDoors = 4);
+		virtual ~GasolineVehicle();
 	};
 }
 

@@ -55,3 +55,29 @@ float GasolineVehicle::PercentEnergyRemaining()
 {
 	return (currentGasoline / maximumGasoline) * 100.0f;
 }
+
+void GasolineVehicle::Drive(float km)
+{
+	currentGasoline -= (km / 100) * engineEfficiency;
+	if (currentGasoline <= 0)
+	{
+		currentGasoline = 0;
+		std::cout << "Charge depleted! ...\n";
+	}
+}
+
+GasolineVehicle::GasolineVehicle(float maximumGasoline, float engineEfficiency, int nWheels, int nDoors)
+	: Vehicle::Vehicle(engineEfficiency, nWheels, nDoors)
+{
+	this->maximumGasoline = maximumGasoline;
+	this->currentGasoline= maximumGasoline; // Fully charged.
+
+	this->engineEfficiency = engineEfficiency;
+
+	this->SanitizeData();
+}
+
+GasolineVehicle::~GasolineVehicle()
+{
+	cout << "In 'GasolineVehicle' Destructor" << endl;
+}
