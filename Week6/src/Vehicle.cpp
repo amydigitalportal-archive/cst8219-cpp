@@ -10,24 +10,13 @@
 * Due Date:		15 OCT 2023
 */
 
+#include "Utils.cpp"
 #include "../include/Vehicle.h"
 
 using namespace std;
 using namespace CST8219;
 
-//#define DEBUG_LOGGING
 //#define USE_GETTERS
-
-/*
-* Prints out the specified message
-* only when DEBUG_LOGGING is defined.
-*/
-void DebugLog(string msg) 
-{
-#ifdef DEBUG_LOGGING
-	cout << msg << endl;
-#endif // DEBUG_LOGGING
-}
 
 #ifdef USE_GETTERS
 Vehicle::GetNumWheels()

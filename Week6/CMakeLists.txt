@@ -12,18 +12,23 @@ endif()
 project ("Week6")
 
 set(target_includes
+	ElectricVehicle.h
+	GasolineVehicle.h
+	HybridVehicle.h
 	Vehicle.h
 )
 list(TRANSFORM target_includes PREPEND "include/")
 
 set(target_sources
-	Week6.cpp
+	ElectricVehicle.cpp
+	Utils.cpp
 	Vehicle.cpp
+	Week6.cpp
 )
 list(TRANSFORM target_sources PREPEND "src/")
 
 # Add source to this project's executable.
-add_executable (Week6 ${target_sources} ${target_includes} "include/ElectricVehicle.h")
+add_executable (Week6 ${target_sources} ${target_includes})
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Week6 PROPERTY CXX_STANDARD 20)
