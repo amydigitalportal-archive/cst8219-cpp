@@ -23,7 +23,6 @@ set(target_sources
 	ElectricVehicle.cpp
 	GasolineVehicle.cpp
 	HybridVehicle.cpp
-	Utils.cpp
 	Vehicle.cpp
 	Week6.cpp
 )

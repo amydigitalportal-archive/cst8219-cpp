@@ -38,7 +38,8 @@ namespace CST8219
 		/* -- Constructors: Default & Chained */
 		//Vehicle();
 		//Vehicle(int wheels);
-		Vehicle(int wheels = 0, int doors = 0);
+		//Vehicle(int wheels = 0, int doors = 0);
+		Vehicle(float engineEfficiency, int wheels = 0, int doors = 0);
 		~Vehicle();
 		/* -- Constructors: Copiers */
 		Vehicle(Vehicle&);

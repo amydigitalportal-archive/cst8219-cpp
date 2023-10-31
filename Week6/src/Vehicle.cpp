@@ -10,6 +10,7 @@
 * Due Date:		15 OCT 2023
 */
 
+#pragma once
 #include "Utils.cpp"
 #include "../include/Vehicle.h"
 
@@ -30,10 +31,15 @@ Vehicle::GetNumDoors()
 }
 #endif // USE_GETTERS
 
-Vehicle::Vehicle(int w, int d) : numWheels(w), numDoors(d)
+Vehicle::Vehicle(float engineEfficiency, int w, int d) : numWheels(w), numDoors(d)
 {
-	DebugLog("In constructor with 2 parameters");
+	this->engineEfficiency = engineEfficiency;
+	DebugLog("In constructor with 3 parameters");
 }
+//Vehicle::Vehicle(int w, int d) : numWheels(w), numDoors(d)
+//{
+//	DebugLog("In constructor with 2 parameters");
+//}
 
 //Vehicle::Vehicle(int w) : Vehicle::Vehicle(w, 0)
 //{
