@@ -108,6 +108,7 @@ bool Vehicle::operator!=(const Vehicle& other) const
 	return ! operator==(other);
 }
 
+#ifndef VEHICLE_IS_ABSTRACT
 /* Pre-fix increment. */
 Vehicle Vehicle::operator++() 
 {
@@ -141,6 +142,7 @@ Vehicle Vehicle::operator--(int i)
 	this->operator--();
 	return copy;
 }
+#endif
 
 ostream& CST8219::operator<<(ostream& os, const Vehicle& v)
 {

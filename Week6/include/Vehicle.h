@@ -14,6 +14,8 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
+#define VEHICLE_IS_ABSTRACT
+
 #include <iostream>
 
 namespace CST8219 
@@ -40,17 +42,27 @@ namespace CST8219
 		Vehicle(Vehicle&);
 		Vehicle(Vehicle*);
 
+		/* -- Main Functions */
+
 		void PrintVehicle(Vehicle& v);
 		void PrintVehicle(void);
+		virtual float CalculateRange() = 0;
+		virtual float PercentEnergyRemaining() = 0;
+		virtual void Drive(float km) = 0;
+
+		/* -- Operator overloads */
 
 		Vehicle& operator=(const Vehicle& other);
 		bool operator==(const Vehicle& other) const;
 		bool operator!=(const Vehicle& other) const;
 
+#ifndef VEHICLE_IS_ABSTRACT
+		/* Artifacts from Week5; Disabled due to abstract class. */
 		Vehicle operator++();
 		Vehicle operator++(int i);
 		Vehicle operator--();
 		Vehicle operator--(int i);
+#endif
 
 		friend std::ostream& operator<<(std::ostream& os, const Vehicle& v);
 	};
