@@ -35,7 +35,7 @@ void ElectricVehicle::SanitizeData()
 /* Should return */
 float ElectricVehicle::CalculateRange()
 {
-	ElectricVehicle::SanitizeData();
+	this->SanitizeData();
 
 	if (engineEfficiency == 0) // cheat codes!
 	{
@@ -54,4 +54,30 @@ float ElectricVehicle::CalculateRange()
 float ElectricVehicle::PercentEnergyRemaining()
 {
 	return (currentCharge / maximumCharge) * 100.0f;
+}
+
+void ElectricVehicle::Drive(float km)
+{
+	currentCharge -= (km / 100) * engineEfficiency;
+	if (currentCharge <= 0) 
+	{
+		currentCharge = 0;
+		std::cout << "Charge depleted! ...\n";
+	}
+}
+
+ElectricVehicle::ElectricVehicle(float maximumCharge, float engineEfficiency, int nWheels, int nDoors)
+	: Vehicle::Vehicle(engineEfficiency, nWheels, nDoors)
+{
+	this->maximumCharge = maximumCharge;
+	this->currentCharge = maximumCharge; // Fully charged.
+
+	this->engineEfficiency = engineEfficiency;
+
+	this->SanitizeData();
+}
+
+ElectricVehicle::~ElectricVehicle()
+{
+	cout << "In 'ElectricVehicle' Destructor" << endl;
 }

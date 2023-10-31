@@ -40,7 +40,7 @@ namespace CST8219
 		//Vehicle(int wheels);
 		//Vehicle(int wheels = 0, int doors = 0);
 		Vehicle(float engineEfficiency, int wheels = 0, int doors = 0);
-		~Vehicle();
+		virtual ~Vehicle();
 		/* -- Constructors: Copiers */
 		Vehicle(Vehicle&);
 		Vehicle(Vehicle*);

@@ -11,6 +11,7 @@
 */
 
 #include "../include/Vehicle.h"
+#include "../include/ElectricVehicle.h"
 
 #include <iostream>
 
@@ -23,6 +24,7 @@ void RunWeek4();
 void RunWeek5();
 void RunWeek6();
 
+#ifndef VEHICLE_IS_ABSTRACT
 void CreateVehicle(Vehicle& v, int w = 4, int d = 2) {
 	v = Vehicle(w, d);
 }
@@ -152,16 +154,46 @@ void RunWeek5PersonalTests()
 	Vehicle outputVeh(123, 456);
 	cout << outputVeh << endl;
 }
+#endif
+
+void RunTester()
+{
+	ElectricVehicle* ev = new ElectricVehicle(75, 16);
+
+	float range = ev->CalculateRange();
+	cout << "Initial range: " << range;
+
+	ev->Drive(150);
+	float range2 = ev->CalculateRange();
+	cout << "New range: " << range2;
+}
+
+Vehicle* testVehicle(Vehicle* pVehicle, const char* vehicleName)
+{
+	cout << vehicleName << "'s range is: " << pVehicle->CalculateRange() << endl;
+	cout << "Driving 150 km ..." << endl;
+	pVehicle->Drive(150); //drive 150 km
+	cout << vehicleName << "'s energy left is: " << pVehicle->PercentEnergyRemaining() << endl;
+	cout << vehicleName << "'s range is now: " << pVehicle->CalculateRange() << endl;
+
+	return pVehicle;
+}
 
 void RunWeek6()
 {
 
+	//75 kWh, 16 kWh/100km
+	delete testVehicle(new ElectricVehicle(75, 16), "Tesla 3");
 }
 
 int main(int argc, char** argv)
 {
+	//RunTester();
+
+#ifndef VEHICLE_IS_ABSTRACT
 	//RunWeek4();
 	//RunWeek5();
+#endif
 
 	RunWeek6();
 

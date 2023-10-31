@@ -21,15 +21,18 @@ namespace CST8219
 	class ElectricVehicle : public CST8219::Vehicle
 	{
 	protected:
-		float currentCharge;
-		float maximumCharge;
+		float	currentCharge;
+		float	maximumCharge;
 
-		void SanitizeData() override;
+		void	SanitizeData() override;
 
 	public:
-		float CalculateRange() override;
-		float PercentEnergyRemaining() override;
-		void Drive(float km) override;
+		float	CalculateRange() override;
+		float	PercentEnergyRemaining() override;
+		void	Drive(float km) override;
+
+		ElectricVehicle(float maximumCharge, float engineEfficiency, int nWheels = 4, int nDoors = 4);
+		virtual ~ElectricVehicle();
 	};
 }
 
