@@ -23,7 +23,7 @@ set(target_sources
 list(TRANSFORM target_sources PREPEND "src/")
 
 # Add source to this project's executable.
-add_executable (Week6 ${target_sources} ${target_includes})
+add_executable (Week6 ${target_sources} ${target_includes} "include/ElectricVehicle.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Week6 PROPERTY CXX_STANDARD 20)
