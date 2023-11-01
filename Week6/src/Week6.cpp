@@ -12,6 +12,7 @@
 
 #include "../include/ElectricVehicle.h"
 #include "../include/GasolineVehicle.h"
+#include "../include/HybridVehicle.h"
 
 #include <iostream>
 
@@ -185,6 +186,9 @@ void RunWeek6()
 	delete testVehicle(new GasolineVehicle(50, 7.1f), "Corolla");
 	cout << endl;
 
+	//42 L of gas, 4.3 L/100km, 8.8kWh, 22 kWh/100km
+	delete testVehicle(dynamic_cast<ElectricVehicle*>(new HybridVehicle(42.0f, 4.3f, 8.8f, 22.0f)), "Prius");
+	cout << endl;
 
 	//75 kWh, 16 kWh/100km
 	delete testVehicle(new ElectricVehicle(75, 16), "Tesla 3");

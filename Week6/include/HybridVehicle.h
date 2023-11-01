@@ -1,4 +1,4 @@
-/*File: ElectricVehicle.h
+/*File: HybridVehicle.h
 *
 * Course:		CST8219 C++ Programming (23F)
 * Section:		302
@@ -25,6 +25,9 @@ namespace CST8219
 		float CalculateRange() override;
 		float PercentEnergyRemaining() override;
 		void Drive(float km) override;
+
+		HybridVehicle(float maximumGasoline, float gasolineEfficiency, float maximumCharge, float electricEfficiency, int nWheels = 4, int nDoors = 4);
+		virtual ~HybridVehicle();
 	};
 }
 

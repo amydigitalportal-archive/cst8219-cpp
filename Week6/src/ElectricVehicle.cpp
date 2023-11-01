@@ -58,21 +58,21 @@ float ElectricVehicle::PercentEnergyRemaining()
 
 void ElectricVehicle::Drive(float km)
 {
-	currentCharge -= (km / 100) * engineEfficiency;
+	currentCharge -= (km / 100) * ElectricVehicle::engineEfficiency;
 	if (currentCharge <= 0) 
 	{
 		currentCharge = 0;
-		std::cout << "Charge depleted! ...\n";
+		//std::cout << "Charge depleted! ...\n";
 	}
 }
 
 ElectricVehicle::ElectricVehicle(float maximumCharge, float engineEfficiency, int nWheels, int nDoors)
-	: Vehicle::Vehicle(engineEfficiency, nWheels, nDoors)
+	: Vehicle::Vehicle(nWheels, nDoors)
 {
 	this->maximumCharge = maximumCharge;
 	this->currentCharge = maximumCharge; // Fully charged.
 
-	this->engineEfficiency = engineEfficiency;
+	ElectricVehicle::engineEfficiency = engineEfficiency;
 
 	this->SanitizeData();
 }

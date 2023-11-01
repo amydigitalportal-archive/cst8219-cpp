@@ -58,7 +58,7 @@ float GasolineVehicle::PercentEnergyRemaining()
 
 void GasolineVehicle::Drive(float km)
 {
-	currentGasoline -= (km / 100) * engineEfficiency;
+	currentGasoline -= (km / 100) * GasolineVehicle::engineEfficiency;
 	if (currentGasoline <= 0)
 	{
 		currentGasoline = 0;
@@ -67,12 +67,12 @@ void GasolineVehicle::Drive(float km)
 }
 
 GasolineVehicle::GasolineVehicle(float maximumGasoline, float engineEfficiency, int nWheels, int nDoors)
-	: Vehicle::Vehicle(engineEfficiency, nWheels, nDoors)
+	: Vehicle::Vehicle(nWheels, nDoors)
 {
 	this->maximumGasoline = maximumGasoline;
 	this->currentGasoline= maximumGasoline; // Fully charged.
 
-	this->engineEfficiency = engineEfficiency;
+	GasolineVehicle::engineEfficiency = engineEfficiency;
 
 	this->SanitizeData();
 }

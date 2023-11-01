@@ -40,6 +40,10 @@ Vehicle::Vehicle(float engineEfficiency, int w, int d) : numWheels(w), numDoors(
 //{
 //	DebugLog("In constructor with 2 parameters");
 //}
+Vehicle::Vehicle(int w, int d) : numWheels(w), numDoors(d)
+{
+	DebugLog("In constructor with 2 parameters");
+}
 
 //Vehicle::Vehicle(int w) : Vehicle::Vehicle(w, 0)
 //{

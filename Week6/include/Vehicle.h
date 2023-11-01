@@ -27,8 +27,8 @@ namespace CST8219
 		int numDoors;
 
 	protected:
-		float engineEfficiency;
-		virtual void SanitizeData() = 0;
+		float engineEfficiency = 0.0f;
+		virtual void SanitizeData();
 
 	public:
 		/* -- Getters -- */
@@ -38,8 +38,7 @@ namespace CST8219
 		/* -- Constructors: Default & Chained */
 		//Vehicle();
 		//Vehicle(int wheels);
-		//Vehicle(int wheels = 0, int doors = 0);
-		Vehicle(float engineEfficiency, int wheels = 0, int doors = 0);
+		Vehicle(int wheels = 0, int doors = 0);
 		virtual ~Vehicle();
 		/* -- Constructors: Copiers */
 		Vehicle(Vehicle&);
