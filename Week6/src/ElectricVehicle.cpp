@@ -62,7 +62,6 @@ void ElectricVehicle::Drive(float km)
 	if (currentCharge <= 0) 
 	{
 		currentCharge = 0;
-		//std::cout << "Charge depleted! ...\n";
 	}
 }
 

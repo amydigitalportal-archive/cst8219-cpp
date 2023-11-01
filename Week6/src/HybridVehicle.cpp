@@ -41,6 +41,8 @@ void HybridVehicle::Drive(float km)
 	// Is Electric range shorter than target distance?
 	if (rangeElectric < km)
 	{
+		std::cout << "\t( Charge depleted! ... )\n";
+
 		// -- Calculate remaining distance.
 		float remainingDistance = km - rangeElectric;
 		// Drive using Gasoline.
@@ -48,7 +50,6 @@ void HybridVehicle::Drive(float km)
 	}
 
 	// Check if Vehicle has depleted all fuel.
-		/*if (HybridVehicle::PercentEnergyRemaining() <= 0.0)*/
 	if (HybridVehicle::PercentEnergyRemaining() < 0.0)	// <- Assignment specifies "less than 0"
 	{
 		std::cout << "Your vehicle is out of energy!\n";

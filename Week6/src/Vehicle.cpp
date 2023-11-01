@@ -11,145 +11,20 @@
 */
 
 #pragma once
-#include "Utils.cpp"
 #include "../include/Vehicle.h"
 
 using namespace std;
 using namespace CST8219;
 
-//#define USE_GETTERS
-
-#ifdef USE_GETTERS
-Vehicle::GetNumWheels()
-{
-	return numWheels;
+Vehicle::Vehicle(int w, int d) : numWheels(w), numDoors(d) 
+{ 
 }
 
-Vehicle::GetNumDoors()
-{
-	return numDoors;
-}
-#endif // USE_GETTERS
-
-Vehicle::Vehicle(float engineEfficiency, int w, int d) : numWheels(w), numDoors(d)
-{
-	this->engineEfficiency = engineEfficiency;
-	DebugLog("In constructor with 3 parameters");
-}
-//Vehicle::Vehicle(int w, int d) : numWheels(w), numDoors(d)
-//{
-//	DebugLog("In constructor with 2 parameters");
-//}
-Vehicle::Vehicle(int w, int d) : numWheels(w), numDoors(d)
-{
-	DebugLog("In constructor with 2 parameters");
-}
-
-//Vehicle::Vehicle(int w) : Vehicle::Vehicle(w, 0)
-//{
-//	DebugLog("In constructor with 1 parameters, wheels = " + w);
-//}
-
-//Vehicle::Vehicle() : Vehicle(0)
-//{
-//	DebugLog("In constructor with 0 parameters");
-//}
-
+/**
+* Destructor.
+*/
 Vehicle::~Vehicle()
 {
-	DebugLog("In destructor");
-}
-
-/* -- "Copy Constructor" */
-Vehicle::Vehicle(Vehicle& source) 
-{
-	numWheels = source.numWheels;
-	numDoors = source.numDoors;
-}
-
-Vehicle::Vehicle(Vehicle* source) : Vehicle(*source)
-{
-
-}
-
-
-void Vehicle::PrintVehicle(Vehicle &v) 
-{
-	cout << "Vehicle at address: " << &v << endl
-		<< "Number of wheels: " << v.numWheels << endl
-		<< "Number of doors: " << v.numDoors << endl
-		<< endl;
-}
-
-void Vehicle::PrintVehicle() 
-{
-	PrintVehicle(*this);
-}
-
-Vehicle& Vehicle::operator=(const Vehicle& other) 
-{
-	if (this != &other) {
-		numWheels = other.numWheels;
-		numDoors = other.numDoors;
-	}
-
-	return *this;
-}
-
-bool Vehicle::operator==(const Vehicle& other) const 
-{
-	return (this->numWheels == other.numWheels)
-		&& (this->numDoors == other.numDoors);
-}
-
-bool Vehicle::operator!=(const Vehicle& other) const 
-{
-	return ! operator==(other);
-}
-
-#ifndef VEHICLE_IS_ABSTRACT
-/* Pre-fix increment. */
-Vehicle Vehicle::operator++() 
-{
-	numWheels++; numDoors++;
-	return Vehicle(this);
-}
-
-/* Post-fix increment. */
-Vehicle Vehicle::operator++(int i) 
-{
-	// return a copy of the original Vehicle before incrementing values for "this"
-	Vehicle copy(numWheels, numDoors);
-	this->operator++();
-	return copy;
-
-	/* Alternative. */
-	//return Vehicle(this->numWheels++, this->numDoors++);
-}
-
-/* Pre-fix decrement. */
-Vehicle Vehicle::operator--() 
-{
-	numWheels--; numDoors--;
-	return Vehicle(this);
-}
-
-/* Post-fix decrement. */
-Vehicle Vehicle::operator--(int i) 
-{
-	Vehicle copy(numWheels, numDoors);
-	this->operator--();
-	return copy;
-}
-#endif
-
-ostream& CST8219::operator<<(ostream& os, const Vehicle& v)
-{
-	os << "Vehicle at address: " << &v << endl
-		<< "Number of wheels: " << v.numWheels << endl
-		<< "Number of doors: " << v.numDoors << endl
-		<< endl;
-	return os;
 }
 
 void Vehicle::SanitizeData()

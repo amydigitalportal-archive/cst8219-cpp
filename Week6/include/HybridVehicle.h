@@ -22,9 +22,9 @@ namespace CST8219
 	class HybridVehicle : public ElectricVehicle, public GasolineVehicle
 	{
 	public:
-		float CalculateRange() override;
-		float PercentEnergyRemaining() override;
-		void Drive(float km) override;
+		float	CalculateRange() override;
+		float	PercentEnergyRemaining() override;
+		void	Drive(float km) override;
 
 		HybridVehicle(float maximumGasoline, float gasolineEfficiency, float maximumCharge, float electricEfficiency, int nWheels = 4, int nDoors = 4);
 		virtual ~HybridVehicle();
