@@ -1,6 +1,9 @@
 ﻿# CMakeList.txt : CMake project for Week6, include source and define
 # project specific logic here.
 #
+# Refs:
+# [1] KamilCuk (2019), "CMake: set directory for target sources"
+#     - https://stackoverflow.com/a/55494263
 cmake_minimum_required (VERSION 3.12)
 
 # Enable Hot Reload for MSVC compilers if supported.
@@ -17,7 +20,7 @@ set(target_includes
 	HybridVehicle.h
 	Vehicle.h
 )
-list(TRANSFORM target_includes PREPEND "include/")
+list(TRANSFORM target_includes PREPEND "include/") # Prepend dir-path to each entry on the list [1]
 
 set(target_sources
 	ElectricVehicle.cpp
@@ -34,5 +37,3 @@ add_executable (Week6 ${target_sources} ${target_includes})
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Week6 PROPERTY CXX_STANDARD 20)
 endif()
-
-# TODO: Add tests and install targets if needed.

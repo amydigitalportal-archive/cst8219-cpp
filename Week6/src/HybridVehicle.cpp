@@ -12,6 +12,8 @@
 
 #include "../include/HybridVehicle.h"
 
+#include <algorithm>
+
 using namespace std;
 using namespace CST8219;
 
@@ -30,32 +32,43 @@ float HybridVehicle::PercentEnergyRemaining()
 
 void HybridVehicle::Drive(float km)
 {
-	// Calculate range before driving Electric.
-	float rangeElectric = ElectricVehicle::CalculateRange();
-
-	// Travel, then calculate distance traveled
-	ElectricVehicle::Drive(km);
-	// Recalculate range in case Vehicle somehow gained charge.
-	rangeElectric = ElectricVehicle::CalculateRange();
-
-	// Is Electric range shorter than target distance?
-	if (rangeElectric < km)
-	{
-		std::cout << "\t( Charge depleted! ... )\n";
-
-		// -- Calculate remaining distance.
-		float remainingDistance = km - rangeElectric;
-		// Drive using Gasoline.
-		GasolineVehicle::Drive(remainingDistance);
+	if (km <= 0) {
+		// "You're goin NO WHERRRRE" - Bonesaw McGraw, Spiderman (2002)
+		return;
 	}
 
-	// Check if Vehicle has depleted all fuel.
-	if (HybridVehicle::PercentEnergyRemaining() < 0.0)	// <- Assignment specifies "less than 0"
-	{
-		std::cout << "Your vehicle is out of energy!\n";
+	float distanceToDrive = km;
 
-		ElectricVehicle::SanitizeData();
-		GasolineVehicle::SanitizeData();
+	// Calculate range of Electric
+	float rangeElectric = ElectricVehicle::CalculateRange();
+	// Do we have any range with Electric?
+	if (rangeElectric > 0)
+	{
+		// Is target distance is longer than what Electric can get to?
+		distanceToDrive -= (km > rangeElectric) ? 
+			// Use up all the Electric range
+			rangeElectric
+			// Otherwise, drive the entire target-distance.
+			: km;
+		ElectricVehicle::Drive(distanceToDrive);
+	}
+
+	// Do we still have some distance to go?
+	if (distanceToDrive > 0) 
+	{
+		// Calculate range of Gasoline
+		float rangeGasoline = GasolineVehicle::CalculateRange();
+		// Do we have any range with Gasoline?
+		if (rangeGasoline > 0)
+		{
+			// Is remaining distance longer than what Gasoline can get to?
+			distanceToDrive = (distanceToDrive > rangeGasoline) ?
+				// Use up all the Gasoline range
+				rangeGasoline
+				// Otherwise, drive the entire remaining distance.
+				: distanceToDrive;
+			GasolineVehicle::Drive(distanceToDrive);
+		}
 	}
 }
 
