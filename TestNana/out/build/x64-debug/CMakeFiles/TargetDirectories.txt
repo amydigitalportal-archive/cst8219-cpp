@@ -1,0 +1,3 @@
+C:/_Programming/_cpp_cst8219/TestNana/out/build/x64-debug/CMakeFiles/TestNana.dir
+C:/_Programming/_cpp_cst8219/TestNana/out/build/x64-debug/CMakeFiles/edit_cache.dir
+C:/_Programming/_cpp_cst8219/TestNana/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
