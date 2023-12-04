@@ -3,7 +3,7 @@
 #include <nana/gui/widgets/button.hpp>
 #include <nana/gui/widgets/textbox.hpp>
 
-#include "RNG.h"
+#include "TestRunner.h"
 
 #include <iostream>
 
@@ -61,9 +61,16 @@ int main()
     //Start to event loop process, it blocks until the form is closed.
     exec();
 #else
+    TestRunner* runner = new TestRunner();
+    runner->SetNumSamples(500);
 
+    //vector<int> myNums = runner->RunUniformTests();
+    vector<int> myNums = runner->RunNormalTests();
+    
+    //for (int n : myNums)
+    //    cout << n << ' ';
+    //cout << endl;
 
     return 0;
-
 #endif
 }
