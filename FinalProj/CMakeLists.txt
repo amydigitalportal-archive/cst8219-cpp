@@ -12,7 +12,7 @@ endif()
 project ("FinalProj")
 
 # Add source to this project's executable.
-add_executable (FinalProj "Main.cpp" "TestRunner.cpp" "TestRunner.h" "Test.cpp" "Test.h")
+add_executable (FinalProj "Main.cpp"  "Test.h")
 
 target_include_directories(FinalProj PUBLIC "../nana/include")
 
