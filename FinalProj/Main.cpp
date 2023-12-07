@@ -5,10 +5,13 @@
 //#include "TestRunner.h"
 #include "Test.h"
 
-
+#include <iomanip>
 #include <iostream>
 
 using namespace std;
+
+#define WINDOW_WIDTH 350
+#define WINDOW_HEIGHT 600
 
 #define STR_BTN_UNIFORM "Uniform"
 #define STR_BTN_NORMAL "Normal"
@@ -21,7 +24,7 @@ using namespace std;
 #define TB_OUTPUT "tb_output"
 #define BTN_QUIT "btn_quit"
 
-#define LAUNCH_GUI
+/* -- Static & Helpers */
 
 void LogToConsole(nana::textbox* tb, std::string text)
 {
@@ -33,12 +36,33 @@ int ParseInt(std::string s)
     return stoi(s);
 }
 
-void RunUniformTests(int numSamples)
+void RunUniformTests(int numSamples, nana::textbox* console)
 {
+	UniformTest uni(numSamples);
 
+    /* Display Test Header */
+	std::string output = string("[   Uniform distribution   ]") + "\n";
+    output += std::format("- # of samples: {}\n", numSamples);
+	auto min = uni.GetMin(), max = uni.GetMax();
+	output += std::format("- Min: {} | Max: {}\n", min, max);
+	auto range = max - min;
+	auto bucketSize = range / NUM_BUCKETS;
+	output += std::format("(Range of values: {} | Size of each bucket: {} )\n", range, bucketSize);
+	output += string("-----------------\n");
+
+    /* Display Histogram */
+	std::vector<int> hist = uni.GetHistogram();
+	int b = 1;
+	for (int count : hist) {
+		output += std::format("[{}] : ", b++) ;
+        for (int n = 0; n < count; n++)
+            output += "*";
+        output += "\n";
+	}
+	LogToConsole(console, output);
 }
 
-void RunNormalTests(int numSamples)
+void RunNormalTests(int numSamples, nana::textbox* console)
 {
 
 }
@@ -48,12 +72,11 @@ void RunNormalTests(int numSamples)
 
 int main()
 {
-#ifdef LAUNCH_GUI
     using namespace nana;
 
-    const nana::size WINDOW_SIZE{ 300, 400 };
+    const nana::size WINDOW_SIZE{ WINDOW_WIDTH, WINDOW_HEIGHT };
 
-    //Define a form.
+    // Define a form (window).
     form fm;
     fm.size(WINDOW_SIZE);
     // Prevent window from resizing
@@ -78,19 +101,29 @@ int main()
     
     /*-- TextBox: Output */
     textbox* tb_output = new textbox{ fm, "" };
-    tb_output->editable(false);
+    tb_output->editable(false); // Set Read-only.
+    tb_output->append("\n", false); // Initial update
 
     /*-- Button: Quit */
     button btn_quit{ fm, STR_BTN_QUIT };
 
-    //Layout management
+    // Layout management
     //fm.div("vert <><<><weight=80% text><>><><weight=24<><button><>><>");
-    fm.div("vert margin=[0,10] <weight=10% margin=[10,0] label_prompt><weight=10% tb_input><weight=15% margin=[10,0] <btn_uniform> <btn_normal> > <tb_output> <weight=10% margin=[10,0] btn_quit>");
+    fm.div("vert margin=[0,10] \
+        <weight=7% margin=[10,0] label_prompt>\
+        <weight=5% tb_input> \
+        <weight=10% margin=[10,0] \
+            <btn_uniform> \
+            <btn_normal> \
+        > \
+        <tb_output> \
+        <weight=10% margin=[10,0] btn_quit>");
+
     fm[LABEL_PROMPT] << label_prompt;
     fm[TB_INPUT] << tb_input;
     fm[BTN_UNIFORM] << btn_uniform;
     fm[BTN_NORMAL] << btn_normal;
-    fm[TB_OUTPUT] << *tb_output;
+    fm[TB_OUTPUT] << *tb_output; 
     fm[BTN_QUIT] << btn_quit;
 
     // -- Button Events
@@ -101,7 +134,8 @@ int main()
         // If Input field is NOT empty...
         if (tb_input.text().empty() == false)
         {
-            LogToConsole(tb_output, tb_input.text());
+            //LogToConsole(tb_output, tb_input.text());
+            RunUniformTests(ParseInt(tb_input.text()), tb_output);
         }
     });
 
@@ -120,19 +154,4 @@ int main()
 
     //Start to event loop process, it blocks until the form is closed.
     exec();
-#else
-    //TestRunner* runner = new TestRunner();
-    //runner->SetNumSamples(500);
-
-    //vector<int> myNums = runner->RunUniformTests();
-    //vector<int> myNums = runner->RunNormalTests();
-    
-    //for (int n : myNums)
-    //    cout << n << ' ';
-    //cout << endl;
-
-    UniformTest u(1000);
-
-    return 0;
-#endif
 }
