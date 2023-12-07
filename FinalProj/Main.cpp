@@ -2,10 +2,14 @@
 #include <nana/gui/widgets/label.hpp>
 #include <nana/gui/widgets/button.hpp>
 #include <nana/gui/widgets/textbox.hpp>
+#include <nana/audio/player.hpp>
+#include <nana/threads/pool.hpp>
+
 #include "Test.h"
 
 #include <iomanip>
 #include <iostream>
+#include <thread>
 
 using namespace std;
 
@@ -120,9 +124,20 @@ int main()
     fm[TB_OUTPUT] << *tb_output; 
     fm[BTN_QUIT] << btn_quit;
 
+
+    // -- Media
+
+    nana::audio::player wav_uni("./cash.wav");
+    nana::audio::player wav_norm("./mario.wav");
+    nana::audio::player wav_goodbye("./goodbye.wav");
+    nana::threads::pool pool(1);
+
+
+
     // -- Button Events
 
-    btn_uniform.events().click([&tb_input, &tb_output] {
+    //btn_uniform.events().click([&tb_input, &tb_output, &wav_uni] {
+    btn_uniform.events().click(pool_push(pool, [&]() {
         cout << STR_BTN_UNIFORM << endl;
 
         // If Input field is NOT empty...
@@ -131,10 +146,13 @@ int main()
             UniformTest<int>* test = new UniformTest<int>(ParseInt(tb_input.text()));
             std::string output = RunTests(test);
             LogToConsole(tb_output, output);
-        }
-    });
 
-    btn_normal.events().click([&tb_input, &tb_output] {
+            wav_uni.play();
+        }
+    }));
+
+    //btn_normal.events().click([&tb_input, &tb_output] {
+    btn_normal.events().click(pool_push(pool, [&]() {
         cout << STR_BTN_NORMAL << endl;
 
         if (tb_input.text().empty() == false)
@@ -142,11 +160,15 @@ int main()
             NormalTest<double>* test = new NormalTest<double>(ParseInt(tb_input.text()));
             std::string output = RunTests(test);
             LogToConsole(tb_output, output);
+
+            wav_norm.play();
         }
+    }));
+
+    btn_quit.events().click([&wav_goodbye] {
+        wav_goodbye.play();
+        API::exit(); // Ref: https://stackoverflow.com/a/33582771
     });
-
-    btn_quit.events().click(API::exit); // Ref: https://stackoverflow.com/a/33582771
-
 
     fm.collocate();
 

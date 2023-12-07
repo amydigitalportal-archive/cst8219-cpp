@@ -17,6 +17,7 @@ add_executable (FinalProj "Main.cpp"  "Test.h")
 target_include_directories(FinalProj PUBLIC "../nana/include")
 
 add_definitions(-D_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING)
+add_definitions(-DNANA_ENABLE_AUDIO)
 
 target_link_libraries(FinalProj "nana_v143_Release_x64")
 
