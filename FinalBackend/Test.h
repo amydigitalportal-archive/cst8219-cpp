@@ -27,6 +27,8 @@ public:
 		this->numSamples = numSamples;
 	}
 
+	int GetNumSamples() { return numSamples; }
+
 	virtual T GetMin()
 	{
 		T smallest = 0;
@@ -68,57 +70,35 @@ public:
 		}
 	}
 
-	virtual std::vector<T> GetHistogram() = 0;
-
-	static const int SAMPLE_MIN = 20;
-	static const int SAMPLE_MAX = 1000;
-};
-
-class UniformTest : public Test<int>
-{
-public:
-	UniformTest(int numSamples) : Test<int>(numSamples)
+	//virtual std::vector<T> GetHistogram() = 0;
+	virtual std::vector<T> GetHistogram()
 	{
-		// Generate numbers based on the time
-		std::srand(static_cast<unsigned int>(time(NULL)));
+		std::vector<T> histogram;
 
-		for (int i = 0; i < numSamples; i++) {
-			int rNum = std::rand() % (UNIFORM_MAX - UNIFORM_MIN + 1) + UNIFORM_MIN;
-			numbers.push_back(rNum);
-
-			//std::cout << numbers[i] << std::endl;
-		}
-	}
-	~UniformTest() {}
-
-	std::vector<int> GetHistogram() override
-	{
-		std::vector<int> histogram;
-	
-		int min = GetMin(), max = GetMax();
-		int range = max - min;
-		double bucketSize = range / NUM_BUCKETS;
-		std::map<int, int> indexedRows{};
+		T min = GetMin(), max = GetMax();
+		T range = max - min;
+		T bucketSize = range / NUM_BUCKETS;
+		std::map<T, int> indexedRows{};
 
 		// Initialize bucket brackets
 		for (int bucketIndex = 0; bucketIndex < NUM_BUCKETS; bucketIndex++)
 		{
-			int startingPoint = min + (int)(bucketIndex * bucketSize);
-			indexedRows.emplace(std::make_pair(startingPoint, 0));
+			T startingPoint = min + (bucketIndex * bucketSize);
+			indexedRows.emplace(startingPoint, 0);
 		}
 
 		// For each generated number
-		for (int i : numbers)
+		for (T i : numbers)
 		{
 			// How far is the current i-value from the lowest number?
-			int relativeGain = i - min;
+			T relativeGain = i - min;
 			// Normalize relative gain per one point of the range
-			double gainPerRangeValue = (double)relativeGain / range;
+			T gainPerRangeValue = relativeGain / range;
 
 			for (int b = 0; b < NUM_BUCKETS; b++)
 			{
-				int bucketStart = min + (int)(b * bucketSize);
-				int nextBucketStart = min + (int)((b + 1) * bucketSize);
+				T bucketStart = min + (b * bucketSize);
+				T nextBucketStart = min + ((b + 1) * bucketSize);
 				if (bucketStart < i && nextBucketStart > i) {
 					indexedRows[bucketStart]++;
 					break;
@@ -136,13 +116,37 @@ public:
 		return histogram;
 	}
 
+	virtual std::string GetName() = 0;
 };
 
-class NormalTest : public Test<double>
+template <class T>
+class UniformTest : public Test<T>
+{
+public:
+	UniformTest(int numSamples) : Test<T>(numSamples)
+	{
+		// Generate numbers based on the time
+		std::srand(static_cast<unsigned int>(time(NULL)));
+
+		for (int i = 0; i < numSamples; i++) {
+			T rNum = std::rand() % (UNIFORM_MAX - UNIFORM_MIN + 1) + UNIFORM_MIN;
+			this->numbers.push_back(rNum);
+		}
+	}
+	~UniformTest() {}
+
+	std::string GetName() override
+	{
+		return "Uniform Distribution";
+	}
+};
+
+template<class T>
+class NormalTest : public Test<T>
 {
 public:
 	// Ref: https://en.cppreference.com/w/cpp/numeric/random/normal_distribution
-	NormalTest(int numSamples) : Test<double>(numSamples)
+	NormalTest(int numSamples) : Test<T>(numSamples)
 	{
 		std::random_device rd{};
 		std::mt19937 gen{ rd() };
@@ -160,54 +164,13 @@ public:
 
 		for (int i = 0; i < numSamples; i++)
 		{
-			numbers.push_back(num());
+			this->numbers.push_back(num());
 		}
 	}
 
-	std::vector<double> GetHistogram() override
+	std::string GetName() override
 	{
-		std::vector<double> histogram;
-
-		double min = GetMin(), max = GetMax();
-		double range = max - min;
-		double bucketSize = range / NUM_BUCKETS;
-		std::map<double, int> indexedRows{};
-
-		// Initialize bucket brackets
-		for (int bucketIndex = 0; bucketIndex < NUM_BUCKETS; bucketIndex++)
-		{
-			double startingPoint = min + (bucketIndex * bucketSize);
-			indexedRows.emplace(std::make_pair(startingPoint, 0));
-		}
-
-		// For each generated number
-		for (double genNum : numbers)
-		{
-			// How far is the current i-value from the lowest number?
-			double relativeGain = genNum - min;
-			// Normalize relative gain per one point of the range
-			double gainPerRangeValue = relativeGain / range;
-			
-			for (int b = 0; b < NUM_BUCKETS; b++)
-			{
-				double bucketStart = min + (b * bucketSize);
-				double nextBucketStart = min + ((b + 1) * bucketSize);
-				if (bucketStart < genNum && nextBucketStart > genNum) {
-					int currentCount = indexedRows[bucketStart];
-					indexedRows.insert_or_assign(bucketStart, currentCount + 1);
-					break;
-				}
-			}
-		}
-
-		// For each bracket in the map, in ascending order...
-		for (auto& [k, v] : indexedRows)
-		{
-			// ... add a bucket to the Histogram.
-			histogram.push_back(v);
-		}
-
-		return histogram;
+		return "Normal Distribution";
 	}
 };
 
