@@ -9,6 +9,7 @@
 
 #define UNIFORM_MIN -100
 #define UNIFORM_MAX 100
+#define NUM_BUCKETS 20
 
 using namespace std;
 
@@ -25,7 +26,6 @@ public:
 	Test(int numSamples) {
 		this->numSamples = numSamples;
 	}
-	//virtual ~Test() = 0;
 
 	virtual T GetMin()
 	{
@@ -68,16 +68,7 @@ public:
 		}
 	}
 
-	virtual std::vector<T> GetHistogram()
-	{
-		std::vector<T> buckets;
-		const int numBuckets = 20;
-
-		T min = GetMin();
-		T max = GetMax();
-
-		return buckets;
-	}
+	virtual std::vector<T> GetHistogram() = 0;
 
 	static const int SAMPLE_MIN = 20;
 	static const int SAMPLE_MAX = 1000;
@@ -95,58 +86,96 @@ public:
 			int rNum = std::rand() % (UNIFORM_MAX - UNIFORM_MIN + 1) + UNIFORM_MIN;
 			numbers.push_back(rNum);
 
-			std::cout << numbers[i] << std::endl;
+			//std::cout << numbers[i] << std::endl;
 		}
 	}
 	~UniformTest() {}
 
 	std::vector<int> GetHistogram() override
 	{
+		std::vector<int> histogram;
+	
+		int min = GetMin(), max = GetMax();
+		int range = max - min;
+		double bucketSize = range / NUM_BUCKETS;
+		std::map<int, int> indexedRows{};
 
-
-		return Test::GetHistogram();
-	}
-
-};
-
-class NormalTest : public Test<double>
-{
-public:
-	// Ref: https://en.cppreference.com/w/cpp/numeric/random/normal_distribution
-	NormalTest(int numSamples) : Test<double>(numSamples)
-	{
-		std::random_device rd{};
-		std::mt19937 gen{ rd() };
-
-		double mean = 0.0, sd = 10.0;
-
-		// values near the mean are the most likely
-		// standard deviation affects the dispersion of generated values from the mean
-		std::normal_distribution normal_dist{ mean, sd };
-
-		// draw a sample from the normal distribution and round it to an integer
-		auto num = [&normal_dist, &gen] {
-			return static_cast<double>(normal_dist(gen));
-		};
-
-		for (int i = 0; i < numSamples; i++)
+		// Initialize bucket brackets
+		for (int bucketIndex = 0; bucketIndex < NUM_BUCKETS; bucketIndex++)
 		{
-			numbers.push_back(num());
-			//std::cout << numbers[i] << std::endl;
+			int startingPoint = min + (bucketIndex * bucketSize);
+			indexedRows.emplace(startingPoint, 0);
 		}
+
+		// For each generated number
+		for (int i : numbers)
+		{
+			// How far is the current i-value from the lowest number?
+			int relativeGain = i - min;
+			// Normalize relative gain per one point of the range
+			double gainPerRangeValue = (double)relativeGain / range;
+
+			for (int b = 0; b < NUM_BUCKETS; b++)
+			{
+				int bucketStart = min + (b * bucketSize);
+				int nextBucketStart = min + ((b + 1) * bucketSize);
+				if (bucketStart < i && nextBucketStart > i) {
+					indexedRows[bucketStart]++;
+					break;
+				}
+			}
+		}
+
+		// For each bracket in the map, in ascending order...
+		for (auto& [k, v] : indexedRows)
+		{
+			// ... add a bucket to the Histogram.
+			histogram.push_back(v);
+		}
+
+		return histogram;
 	}
 
-	std::vector<double> GetHistogram() override
-	{
-		double min = GetMin();
-		cout << "Min: " << min << endl;
-		double max = GetMax();
-		cout << "Max: " << max << endl;
-
-		// TODO
-		return Test::GetHistogram();
-	}
 };
+
+//class NormalTest : public Test<double>
+//{
+//public:
+//	// Ref: https://en.cppreference.com/w/cpp/numeric/random/normal_distribution
+//	NormalTest(int numSamples) : Test<double>(numSamples)
+//	{
+//		std::random_device rd{};
+//		std::mt19937 gen{ rd() };
+//
+//		double mean = 0.0, sd = 10.0;
+//
+//		// values near the mean are the most likely
+//		// standard deviation affects the dispersion of generated values from the mean
+//		std::normal_distribution normal_dist{ mean, sd };
+//
+//		// draw a sample from the normal distribution and round it to an integer
+//		auto num = [&normal_dist, &gen] {
+//			return static_cast<double>(normal_dist(gen));
+//		};
+//
+//		for (int i = 0; i < numSamples; i++)
+//		{
+//			numbers.push_back(num());
+//			//std::cout << numbers[i] << std::endl;
+//		}
+//	}
+//
+//	std::vector<double> GetHistogram() override
+//	{
+//		double min = GetMin();
+//		cout << "Min: " << min << endl;
+//		double max = GetMax();
+//		cout << "Max: " << max << endl;
+//
+//		// TODO
+//		return Test::GetHistogram();
+//	}
+//};
 
 
 
