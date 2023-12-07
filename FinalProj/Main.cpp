@@ -2,7 +2,6 @@
 #include <nana/gui/widgets/label.hpp>
 #include <nana/gui/widgets/button.hpp>
 #include <nana/gui/widgets/textbox.hpp>
-//#include "TestRunner.h"
 #include "Test.h"
 
 #include <iomanip>
@@ -10,8 +9,8 @@
 
 using namespace std;
 
-#define WINDOW_WIDTH 350
-#define WINDOW_HEIGHT 600
+#define WINDOW_WIDTH 600
+#define WINDOW_HEIGHT 700
 
 #define STR_BTN_UNIFORM "Uniform"
 #define STR_BTN_NORMAL "Normal"
@@ -36,35 +35,30 @@ int ParseInt(std::string s)
     return stoi(s);
 }
 
-void RunUniformTests(int numSamples, nana::textbox* console)
+template <typename T>
+string RunTests(Test<T>* pTest)
 {
-	UniformTest uni(numSamples);
-
     /* Display Test Header */
-	std::string output = string("[   Uniform distribution   ]") + "\n";
-    output += std::format("- # of samples: {}\n", numSamples);
-	auto min = uni.GetMin(), max = uni.GetMax();
-	output += std::format("- Min: {} | Max: {}\n", min, max);
-	auto range = max - min;
-	auto bucketSize = range / NUM_BUCKETS;
-	output += std::format("(Range of values: {} | Size of each bucket: {} )\n", range, bucketSize);
-	output += string("-----------------\n");
+    std::string output = std::format("[   {}   ]", pTest->GetName()) + "\n";
+    output += std::format("- # of samples: {}\n", pTest->GetNumSamples());
+    auto min = pTest->GetMin(), max = pTest->GetMax();
+    output += std::format("- Min: {} | Max: {}\n", min, max);
+    auto range = max - min;
+    auto bucketSize = range / NUM_BUCKETS;
+    output += std::format("(Range of values: {} | Size of each bucket: {} )\n", range, bucketSize);
+    output += string("-----------------\n");
 
     /* Display Histogram */
-	std::vector<int> hist = uni.GetHistogram();
-	int b = 1;
-	for (int count : hist) {
-		output += std::format("[{}] : ", b++) ;
+    auto hist = pTest->GetHistogram();
+    int b = 1;
+    for (T count : hist) {
+        output += std::format("[{}] : ", b++);
         for (int n = 0; n < count; n++)
             output += "*";
         output += "\n";
-	}
-	LogToConsole(console, output);
-}
+    }
 
-void RunNormalTests(int numSamples, nana::textbox* console)
-{
-
+    return output;
 }
 
 
@@ -110,14 +104,14 @@ int main()
     // Layout management
     //fm.div("vert <><<><weight=80% text><>><><weight=24<><button><>><>");
     fm.div("vert margin=[0,10] \
-        <weight=7% margin=[10,0] label_prompt>\
+        <weight=5% margin=[10,0] label_prompt>\
         <weight=5% tb_input> \
-        <weight=10% margin=[10,0] \
+        <weight=7% margin=[10,0] \
             <btn_uniform> \
             <btn_normal> \
         > \
         <tb_output> \
-        <weight=10% margin=[10,0] btn_quit>");
+        <weight=7% margin=[10,0] btn_quit>");
 
     fm[LABEL_PROMPT] << label_prompt;
     fm[TB_INPUT] << tb_input;
@@ -134,14 +128,21 @@ int main()
         // If Input field is NOT empty...
         if (tb_input.text().empty() == false)
         {
-            //LogToConsole(tb_output, tb_input.text());
-            RunUniformTests(ParseInt(tb_input.text()), tb_output);
+            UniformTest<int>* test = new UniformTest<int>(ParseInt(tb_input.text()));
+            std::string output = RunTests(test);
+            LogToConsole(tb_output, output);
         }
     });
 
     btn_normal.events().click([&tb_input, &tb_output] {
         cout << STR_BTN_NORMAL << endl;
 
+        if (tb_input.text().empty() == false)
+        {
+            NormalTest<double>* test = new NormalTest<double>(ParseInt(tb_input.text()));
+            std::string output = RunTests(test);
+            LogToConsole(tb_output, output);
+        }
     });
 
     btn_quit.events().click(API::exit); // Ref: https://stackoverflow.com/a/33582771

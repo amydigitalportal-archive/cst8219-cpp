@@ -27,6 +27,8 @@ public:
 		this->numSamples = numSamples;
 	}
 
+	int GetNumSamples() { return numSamples; }
+
 	virtual T GetMin()
 	{
 		T smallest = 0;
@@ -68,57 +70,34 @@ public:
 		}
 	}
 
-	virtual std::vector<T> GetHistogram() = 0;
-
-	static const int SAMPLE_MIN = 20;
-	static const int SAMPLE_MAX = 1000;
-};
-
-class UniformTest : public Test<int>
-{
-public:
-	UniformTest(int numSamples) : Test<int>(numSamples)
+	virtual std::vector<T> GetHistogram()
 	{
-		// Generate numbers based on the time
-		std::srand(static_cast<unsigned int>(time(NULL)));
+		std::vector<T> histogram;
 
-		for (int i = 0; i < numSamples; i++) {
-			int rNum = std::rand() % (UNIFORM_MAX - UNIFORM_MIN + 1) + UNIFORM_MIN;
-			numbers.push_back(rNum);
-
-			//std::cout << numbers[i] << std::endl;
-		}
-	}
-	~UniformTest() {}
-
-	std::vector<int> GetHistogram() override
-	{
-		std::vector<int> histogram;
-
-		int min = GetMin(), max = GetMax();
-		int range = max - min;
-		double bucketSize = range / NUM_BUCKETS;
-		std::map<int, int> indexedRows{};
+		T min = GetMin(), max = GetMax();
+		T range = max - min;
+		T bucketSize = range / NUM_BUCKETS;
+		std::map<T, int> indexedRows{};
 
 		// Initialize bucket brackets
 		for (int bucketIndex = 0; bucketIndex < NUM_BUCKETS; bucketIndex++)
 		{
-			int startingPoint = min + (bucketIndex * bucketSize);
+			T startingPoint = min + (bucketIndex * bucketSize);
 			indexedRows.emplace(startingPoint, 0);
 		}
 
 		// For each generated number
-		for (int i : numbers)
+		for (T i : numbers)
 		{
 			// How far is the current i-value from the lowest number?
-			int relativeGain = i - min;
+			T relativeGain = i - min;
 			// Normalize relative gain per one point of the range
-			double gainPerRangeValue = (double)relativeGain / range;
+			T gainPerRangeValue = relativeGain / range;
 
 			for (int b = 0; b < NUM_BUCKETS; b++)
 			{
-				int bucketStart = min + (b * bucketSize);
-				int nextBucketStart = min + ((b + 1) * bucketSize);
+				T bucketStart = min + (b * bucketSize);
+				T nextBucketStart = min + ((b + 1) * bucketSize);
 				if (bucketStart < i && nextBucketStart > i) {
 					indexedRows[bucketStart]++;
 					break;
@@ -136,46 +115,63 @@ public:
 		return histogram;
 	}
 
+	virtual std::string GetName() = 0;
 };
 
-//class NormalTest : public Test<double>
-//{
-//public:
-//	// Ref: https://en.cppreference.com/w/cpp/numeric/random/normal_distribution
-//	NormalTest(int numSamples) : Test<double>(numSamples)
-//	{
-//		std::random_device rd{};
-//		std::mt19937 gen{ rd() };
-//
-//		double mean = 0.0, sd = 10.0;
-//
-//		// values near the mean are the most likely
-//		// standard deviation affects the dispersion of generated values from the mean
-//		std::normal_distribution normal_dist{ mean, sd };
-//
-//		// draw a sample from the normal distribution and round it to an integer
-//		auto num = [&normal_dist, &gen] {
-//			return static_cast<double>(normal_dist(gen));
-//		};
-//
-//		for (int i = 0; i < numSamples; i++)
-//		{
-//			numbers.push_back(num());
-//			//std::cout << numbers[i] << std::endl;
-//		}
-//	}
-//
-//	std::vector<double> GetHistogram() override
-//	{
-//		double min = GetMin();
-//		cout << "Min: " << min << endl;
-//		double max = GetMax();
-//		cout << "Max: " << max << endl;
-//
-//		// TODO
-//		return Test::GetHistogram();
-//	}
-//};
+template <class T>
+class UniformTest : public Test<T>
+{
+public:
+	UniformTest(int numSamples) : Test<T>(numSamples)
+	{
+		// Generate numbers based on the time
+		std::srand(static_cast<unsigned int>(time(NULL)));
+
+		for (int i = 0; i < numSamples; i++) {
+			T rNum = std::rand() % (UNIFORM_MAX - UNIFORM_MIN + 1) + UNIFORM_MIN;
+			this->numbers.push_back(rNum);
+		}
+	}
+	~UniformTest() {}
+
+	std::string GetName() override
+	{
+		return "Uniform Distribution";
+	}
+};
+
+template<class T>
+class NormalTest : public Test<T>
+{
+public:
+	// Ref: https://en.cppreference.com/w/cpp/numeric/random/normal_distribution
+	NormalTest(int numSamples) : Test<T>(numSamples)
+	{
+		std::random_device rd{};
+		std::mt19937 gen{ rd() };
+
+		double mean = 0.0, sd = 10.0;
+
+		// values near the mean are the most likely
+		// standard deviation affects the dispersion of generated values from the mean
+		std::normal_distribution normal_dist{ mean, sd };
+
+		// draw a sample from the normal distribution and round it to an integer
+		auto num = [&normal_dist, &gen] {
+			return static_cast<double>(normal_dist(gen));
+		};
+
+		for (int i = 0; i < numSamples; i++)
+		{
+			this->numbers.push_back(num());
+		}
+	}
+
+	std::string GetName() override
+	{
+		return "Normal Distribution";
+	}
+};
 
 
 
